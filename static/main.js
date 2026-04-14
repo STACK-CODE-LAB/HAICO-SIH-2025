@@ -143,7 +143,19 @@ function renderReport(report, jobId) {
   const banner = $('verdictBanner');
   const verdict = report.verdict;
   banner.className = `verdict-banner ${verdict === 'PASS' ? 'pass' : verdict === 'FAIL' ? 'fail' : 'err'}`;
-  $('verdictIcon').textContent = verdict === 'PASS' ? '✅' : verdict === 'FAIL' ? '❌' : '⚠️';
+  const _icons = {
+    PASS: `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+          </svg>`,
+    FAIL: `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+          </svg>`,
+    ERROR: `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
+            </svg>`,
+  };
+
+  $('verdictIcon').innerHTML = _icons[verdict] || _icons.ERROR;
   $('verdictTitle').textContent = verdict === 'PASS'
     ? 'PASS — Semantics Preserved'
     : verdict === 'FAIL' ? 'FAIL — Output Mismatch' : 'ERROR';
@@ -160,8 +172,7 @@ function renderReport(report, jobId) {
     ['Instructions',       pm.instructions,  om.instructions,  ratio(pm.instructions, om.instructions), true],
     ['Branch / Call Sites',pm.branches,      om.branches,      ratio(pm.branches, om.branches), true],
     ['Functions (nm)',     pm.functions,     om.functions,     '—',              false],
-    ['.text Entropy',      pm.entropy ?? '—',om.entropy ?? '—',
-      rat.entropy_delta != null ? `+${rat.entropy_delta}` : '—', false],
+
     ['Strings Visible',
       pm.strings_visible ? '🟡 Yes' : '🟢 Hidden',
       om.strings_visible ? '🔴 Yes' : '🟢 Hidden',
@@ -185,12 +196,15 @@ function renderReport(report, jobId) {
   $('dlMeta').textContent = om.size_human ? `${om.size_human} · obfuscated ELF` : '';
   $('dlBtn').href = `/download/${jobId}`;
 
-  // Entropy bars
-  const maxEnt = 8;
-  const pe = pm.entropy || 0, oe = om.entropy || 0;
-  $('plainBar').style.width = `${Math.min((pe / maxEnt) * 100, 100)}%`;
-  $('obfuBar').style.width  = `${Math.min((oe / maxEnt) * 100, 100)}%`;
-  $('entropyVals').textContent = `${pe} → ${oe} bits`;
+  // Size comparison bars
+  const ps = pm.size_bytes || 0;
+  const os_ = om.size_bytes || 0;
+  const maxSize = Math.max(ps, os_) || 1;
+  $('plainBar').style.width = `${(ps / maxSize) * 100}%`;
+  $('obfuBar').style.width  = `${(os_ / maxSize) * 100}%`;
+  $('sizeVals').textContent = `${pm.size_human || '—'}  →  ${om.size_human || '—'}`;
+
+
 
   // Outputs
   const outMatch = report.outputs?.match;

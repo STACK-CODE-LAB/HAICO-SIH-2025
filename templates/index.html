@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Polaris Obfuscator</title>
+  <title>HAICO</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -22,9 +22,9 @@
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/>
         </svg>
-        <h1>Polaris <span class="accent">Obfuscator</span></h1>
+        <h1><span class="accent">HAICO</span></h1>
       </div>
-      <p class="tagline">AI-Enhanced · LLVM-Powered · Hackathon Edition</p>
+      <p class="tagline">Hybrid AI-enabled Code Obfuscator</p>
     </header>
 
     <!-- ── Upload card ─────────────────────────────────────────────────────── -->
@@ -36,7 +36,7 @@
         </svg>
         <h2>Upload Source File</h2>
       </div>
-      <p class="card-sub">Drop a <code>.c</code> or <code>.cpp</code> file — the AI layer annotates it, then Polaris obfuscates it.</p>
+      <p class="card-sub">Drop a <code>.c</code> or <code>.cpp</code> file.</p>
 
       <!-- Drop zone -->
       <div class="drop-zone" id="dropZone">
@@ -106,13 +106,19 @@
 
       <!-- Verdict banner -->
       <div class="verdict-banner" id="verdictBanner">
-        <div class="verdict-icon" id="verdictIcon"></div>
-        <div>
+        <div class="verdict-icon" id="verdictIcon" aria-hidden="true">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+          </svg>
+        </div>
+
+        <div class="verdict-text">
           <p class="verdict-title" id="verdictTitle"></p>
           <p class="verdict-detail" id="verdictDetail"></p>
         </div>
-        <button class="btn-ghost" id="resetBtn">
-          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+
+        <button class="btn-ghost" id="resetBtn" aria-label="Upload new file">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"/>
           </svg>
           New File
@@ -160,20 +166,22 @@
                 Download Binary
               </a>
             </div>
-            <div class="entropy-bar-wrap">
+            <div class="size-bar-wrap">
               <div class="entropy-label-row">
-                <span class="entropy-label">Entropy</span>
-                <span class="entropy-vals" id="entropyVals"></span>
+                <span class="entropy-label">Size Comparison</span>
+                <span class="entropy-vals" id="sizeVals"></span>
               </div>
-              <div class="entropy-track">
-                <div class="entropy-bar plain-bar"  id="plainBar"></div>
+              <div class="size-bar-row">
+                <span class="size-bar-label">Plain</span>
+                <div class="entropy-track" style="flex:1">
+                  <div class="entropy-bar plain-bar" id="plainBar"></div>
+                </div>
               </div>
-              <div class="entropy-track">
-                <div class="entropy-bar obfu-bar"   id="obfuBar"></div>
-              </div>
-              <div class="entropy-legend">
-                <span><span class="dot plain-dot"></span>Plain</span>
-                <span><span class="dot obfu-dot"></span>Obfuscated</span>
+              <div class="size-bar-row">
+                <span class="size-bar-label">Obfu</span>
+                <div class="entropy-track" style="flex:1">
+                  <div class="entropy-bar obfu-bar" id="obfuBar"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -229,7 +237,7 @@
     </section><!-- /resultsSection -->
 
     <footer>
-      <p>Polaris Obfuscator &copy; 2025 &nbsp;·&nbsp; Smart India Hackathon &nbsp;·&nbsp; ByteRoots</p>
+      <p>HAICO &copy; 2025 &nbsp;·&nbsp; Smart India Hackathon &nbsp;·&nbsp; ByteRoots</p>
     </footer>
 
   </div><!-- /container -->
