@@ -1,6 +1,6 @@
 # HAICO (Hybrid AI-Enabled Code Obfuscator)
 
-<img width="3375" height="526" alt="image" src="https://github.com/user-attachments/assets/fc866ea3-f62d-4571-93ca-6044d545031f" />
+<img alt="image" src="https://github.com/user-attachments/assets/fc866ea3-f62d-4571-93ca-6044d545031f" />
 
 HAICO (Hybrid AI-Enabled Code Obfuscator) is an AI enabled obfuscation system designed to protect compiled binaries (Linux ELF and Windows PE executables) from reverse engineering attacks. The solution prevents attackers from recovering readable source code or understanding program logic when they attempt to decompile distributed binaries.
 
